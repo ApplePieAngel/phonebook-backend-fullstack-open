@@ -60,6 +60,19 @@ app.delete('/api/phonebook/:id', (request, response) => {
     response.status(204).end()
 })
 
+app.post('/api/persons', (request, response) => {
+    const min = 1;
+    const max = 99999;
+    const newId = Math.floor(Math.random() * (max - min + 1) + min);
+
+    const newPerson = request.body;
+    newPerson.id = newId;
+
+    phonebook = phonebook.concat(newPerson);
+
+    response.json(newPerson);
+})
+
 
 const PORT = 3000
 app.listen(PORT, () => {
