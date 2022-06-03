@@ -1,4 +1,5 @@
 const express = require('express')
+const res = require('express/lib/response')
 const app = express()
 
 app.use(express.json())
@@ -28,6 +29,14 @@ const phonebook = [
 
 app.get('/', (request, response) => {
     response.sendFile(__dirname + '/index.html')
+})
+
+app.get('/info', (request, response) => {
+    const calendarDate = new Date();
+
+    response.write(`<p> Phonebook has info for ${phonebook.length} people. </p>`)
+    response.write(`${calendarDate.toUTCString()}`)
+    response.send();
 })
 
 app.get('/api/phonebook', (request, response) => {
