@@ -61,12 +61,28 @@ app.delete('/api/phonebook/:id', (request, response) => {
 })
 
 app.post('/api/persons', (request, response) => {
+    //Generate random ID from min to max.
     const min = 1;
     const max = 99999;
     const newId = Math.floor(Math.random() * (max - min + 1) + min);
 
     const newPerson = request.body;
+
     newPerson.id = newId;
+
+    //Name or Number missing.
+    if (!newPerson.number || !newPerson.name) {
+        return response.status(400).json({
+            error: 'number or name missing'
+        })
+    }
+
+    //No duplicate names allowed in phonebook.
+    if (phonebook.find(phone => phone.name === newPerson.name)) {
+        return response.status(400).json({
+            error: 'name must be unique'
+        })
+    }
 
     phonebook = phonebook.concat(newPerson);
 
