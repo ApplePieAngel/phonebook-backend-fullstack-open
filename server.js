@@ -43,6 +43,16 @@ app.get('/api/phonebook', (request, response) => {
     response.json(phonebook);
 })
 
+app.get('/api/phonebook/:id', (request, response) => {
+    const id = Number(request.params.id);
+    const phonePage = phonebook.find(phone => phone.id === id);
+    if (phonePage) {
+        response.json(phonePage);
+    } else {
+        response.status(404).end();
+    }
+})
+
 const PORT = 3000
 app.listen(PORT, () => {
     console.log(`Server running on ${PORT}`)
