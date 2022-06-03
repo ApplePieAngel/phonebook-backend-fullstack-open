@@ -4,7 +4,7 @@ const app = express()
 
 app.use(express.json())
 
-const phonebook = [
+let phonebook = [
     {
         "id": 1,
         "name": "Arto Hellas",
@@ -52,6 +52,14 @@ app.get('/api/phonebook/:id', (request, response) => {
         response.status(404).end();
     }
 })
+
+app.delete('/api/phonebook/:id', (request, response) => {
+    const id = Number(request.params.id)
+    phonebook = phonebook.filter(note => note.id !== id)
+
+    response.status(204).end()
+})
+
 
 const PORT = 3000
 app.listen(PORT, () => {
